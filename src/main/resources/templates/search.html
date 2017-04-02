@@ -36,7 +36,22 @@
 
     <hr />
 
-    <!-- TODO #2 - Loop over jobs map to display all job fields -->
+    <span th:fragment="joblist">
+        <div th:if="${not #lists.isEmpty(jobs)}">
+            <h3 th:utext="${jobs.size() + ' Result(s)'}" style="display:block"></h3>
+            <span th:each="job : ${jobs}" th:fragment="joblist">
+                <table class="job-listing">
+                    <tr th:each="column : ${job}">
+                        <td th:text="${#strings.capitalizeWords(column.key)}"></td>
+                        <td th:text="${column.value}"></td>
+                    </tr>
+                </table>
+            </span>
+        </div>
+        <div th:if="${#lists.isEmpty(jobs) and #httpServletRequest.requestURI == '/search/results'}">
+            <h3>0 Result(s)</h3>
+        </div>
+    </span>
 
 </div>
 
